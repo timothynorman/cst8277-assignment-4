@@ -1,0 +1,123 @@
+@startuml
+skinparam titleFontColor #0000FF
+skinparam genericDisplay old
+top to bottom direction
+annotation Embeddable
+title REST ACMECollege Group Project
+
+abstract class PojoBase {
+    #id: int
+    #version: int
+    #created : LocalDateTime 
+    #updated : LocalDateTime
+}
+
+note top of PojoBase #FFFFCC
+  The Java class names follow AAAPojo naming convention
+  Classes extend PojoBase except as indicated
+end note
+
+
+abstract class PojoBaseCompositeKey<ID> {
+    #version: int
+    #created : LocalDateTime 
+    #updated : LocalDateTime
+    +ID : getId()
+}
+
+together {
+  class Student {
+    -firstName: String
+    -lastName: String
+    -membershipCards : Set<MembershipCard>
+    -peerTutorRegistrations: Set<PeerTutorRegistrations> 
+  }
+  class Course {
+    -courseCode: String
+    -courseTitle: String
+    -year: int
+    -semester: String
+    -creditUnits: int
+    -online: byte
+    -peerTutorRegistrations: Set<PeerTutorRegistrations>
+  }
+  class PeerTutorRegistrationPK {
+    -studentId : int
+    -courseId : int
+  }
+  Embeddable -- PeerTutorRegistrationPK
+  class PeerTutorRegistration <<extends PojoBaseCompositeKey<PeerTutorRegistrationPK>>> extends PojoBaseCompositeKey  {
+  	-id : PeerTutorRegistrationPK
+	  -student: Student
+	  -course: Course
+	  -peerTutor: PeerTutor
+    -numericGrade: int
+    -letterGrade: String
+  }
+
+  PeerTutorRegistration -r- PeerTutorRegistrationPK : id
+  PeerTutorRegistration "<i>has a</i>" ---> Student : student
+  PeerTutorRegistration "<i>has a</i>" ---> Course : course
+  PeerTutorRegistration "<i>has a</i>" ---> PeerTutor : peerTutor
+  PeerTutor "<i>has many</i>" *---> "*" PeerTutorRegistration : peerTutorRegistrations
+  class PeerTutor {
+    -firstName: String
+    -lastName: String
+    -program: String
+    -hobby: String
+    -careerGoal: String
+    -peerTutorRegistrations: Set<PeerTutorRegistration>
+  }
+  abstract class StudentClub {
+    -name: String
+    -isAcademic: boolean
+    -clubMemberships: Set<ClubMembership> 
+  }
+  StudentClub <|-d- AcademicStudentClub
+  StudentClub <|-d- NonAcademicStudentClub
+  class DurationAndStatus {
+   	-startDate: LocalDateTime
+   	-endDate: LocalDateTime
+   	-active: byte
+  }
+  Embeddable -- DurationAndStatus
+  class ClubMembership {
+    -club: StudentClub
+    -card: MembershipCard
+    -durationAndStatus: DurationAndStatus
+  }
+  class MembershipCard {
+    -membership: ClubMembership
+    -owner: Student
+    -signed: byte
+  }
+  ClubMembership -r- DurationAndStatus : durationAndStatus
+  StudentClub "<i>has many</i>" *--> "*" ClubMembership : clubMemberships
+  ClubMembership "<i>has a</i>" --> StudentClub : club
+  ClubMembership "1" --o "<i>has a</i>" MembershipCard: card
+  MembershipCard "1" --o "<i>has a</i>" ClubMembership : membership
+  Student "<i>has many</i>" *---> "*" MembershipCard : membershipCards
+  Student "<i>has many</i>" *---> "*" PeerTutorRegistration : peerTutorRegistrations
+  MembershipCard "<i>has a</i>" --->  Student : owner
+
+  class SecurityUser <<Object>>  {
+    #int id
+    #string username
+    #string pwHash
+    #Set<SecurityRole> roles
+    #student : Student
+  }
+  class SecurityRole<<Object>> {
+    #int id
+    #string roleName
+    #Set<SecurityUser> users
+  }
+  SecurityUser "<i>has many</i> roles" *--* "*" SecurityRole
+  SecurityUser "<i>has a</i>" --> Student : student
+  SecurityRole "<i>has many</i> users" *--* "*" SecurityUser
+}
+
+footer
+22F CST 8277 Group Assignment 4
+endfooter
+@enduml
