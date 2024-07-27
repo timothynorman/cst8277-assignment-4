@@ -28,6 +28,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.OneToOne;
 
 /**
  * The persistent class for the student database table.
@@ -61,6 +62,9 @@ public class Student extends PojoBase implements Serializable {
 
 	@OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "student")
 	private Set<PeerTutorRegistration> peerTutorRegistrations = new HashSet<>();
+        
+        @OneToOne(mappedBy = "student")
+        private SecurityUser securityUser;
 
 	public String getFirstName() {
 		return firstName;
@@ -77,6 +81,14 @@ public class Student extends PojoBase implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
+    public SecurityUser getSecurityUser() {
+        return securityUser;
+    }
+
+    public void setSecurityUser(SecurityUser securityUser) {
+        this.securityUser = securityUser;
+    }
 
     // Simplify JSON body, skip MembershipCards
     @JsonIgnore
