@@ -26,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 
 import acmecollege.entity.SecurityRole;
 import acmecollege.entity.SecurityUser;
+import static acmecollege.entity.SecurityUser.SECURITY_USER_BY_NAME_QUERY;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -46,7 +47,7 @@ public class CustomIdentityStoreJPAHelper {
     public SecurityUser findUserByName(String username) {
         LOG.debug("find a SecurityUser by name = {}", username);
         SecurityUser user = null;
-        /* TODO CISJPAH01 - 
+        /* TODO CISJPAH01 (DONE TN) - 
          *  Call the entity manager's createNamedQuery() method to call a named query on SecurityUser
          *  The named query should be labeled "SecurityUser.userByName" and accepts a parameter called "param1"
          *  
@@ -56,6 +57,11 @@ public class CustomIdentityStoreJPAHelper {
          *         requests will fail, none of the REST'ful endpoints will work.
          *  
          */
+        try {
+            TypedQuery<SecurityUser> q = em.createNamedQuery(SECURITY_USER_BY_NAME_QUERY, SecurityUser.class);
+            q.setParameter(PARAM1, username);
+            user = q.getSingleResult();
+        } catch (NoResultException e) {}
         return user;
     }
 

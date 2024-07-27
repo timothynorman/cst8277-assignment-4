@@ -30,6 +30,8 @@ import java.util.Set;
 public class SecurityUser implements Serializable, Principal {
     /** Explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
+    
+    public static final String SECURITY_USER_BY_NAME_QUERY = "SecurityUser.userByName";
 
     protected int id;
     
