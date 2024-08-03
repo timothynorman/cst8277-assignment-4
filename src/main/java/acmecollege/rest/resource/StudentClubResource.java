@@ -15,6 +15,7 @@
 package acmecollege.rest.resource;
 
 import java.util.List;
+import java.util.zip.Adler32;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -64,8 +65,9 @@ public class StudentClubResource {
         return response;
     }
     
+    @RolesAllowed({ADMIN_ROLE, USER_ROLE})
     @GET
-    // TODO SCR01 - Specify the roles allowed for this method
+    // TODO SCR01 (DONE CC)- Specify the roles allowed for this method
     @Path("/{studentClubId}")
     public Response getStudentClubById(@PathParam("studentClubId") int studentClubId) {
         LOG.debug("Retrieving student club with id = {}", studentClubId);
@@ -74,8 +76,9 @@ public class StudentClubResource {
         return response;
     }
 
+    @RolesAllowed({ADMIN_ROLE, USER_ROLE})
     @DELETE
-    // TODO SCR02 - Specify the roles allowed for this method
+    // TODO SCR02 (DONE CC)- Specify the roles allowed for this method
     @Path("/{studentClubId}")
     public Response deleteStudentClub(@PathParam("studentClubId") int scId) {
         LOG.debug("Deleting student club with id = {}", scId);
