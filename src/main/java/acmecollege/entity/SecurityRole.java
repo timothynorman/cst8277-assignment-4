@@ -25,6 +25,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @SuppressWarnings("unused")
@@ -35,9 +36,12 @@ import javax.persistence.Table;
 //TODO SR01 (DONE CC) - Make this into JPA entity and add all necessary annotations
 @Entity
 @Table(name = "security_role")
+@NamedQuery(name = SecurityRole.SECURITY_ROLE_BY_NAME_QUERY, query = "SELECT sr FROM SecurityRole sr WHERE sr.role_name = :param1")
 public class SecurityRole implements Serializable {
     /** Explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
+
+    public static final String SECURITY_ROLE_BY_NAME_QUERY = "SecurityRole.roleByName";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

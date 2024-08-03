@@ -99,4 +99,32 @@ public class TestACMECollegeSystem {
         assertThat(students, is(not(empty())));
         assertThat(students, hasSize(1));
     }
+
+    @Test
+    public void test02_all_students_with_userrole() throws JsonMappingException, JsonProcessingException {
+        Response response = webTarget
+            .register(userAuth)
+            //.register(adminAuth)
+            .path(STUDENT_RESOURCE_NAME)
+            .request()
+            .get();
+        assertThat(response.getStatus(), is(200));
+        List<Student> students = response.readEntity(new GenericType<List<Student>>(){});
+        assertThat(students, is(not(empty())));
+        assertThat(students, hasSize(1));
+    }
+
+    @Test
+    public void test03_all_students_with_adminrole_userrole() throws JsonMappingException, JsonProcessingException {
+        Response response = webTarget
+            .register(userAuth)
+            .register(adminAuth)
+            .path(STUDENT_RESOURCE_NAME)
+            .request()
+            .get();
+        assertThat(response.getStatus(), is(200));
+        List<Student> students = response.readEntity(new GenericType<List<Student>>(){});
+        assertThat(students, is(not(empty())));
+        assertThat(students, hasSize(1));
+    }
 }
