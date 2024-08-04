@@ -36,12 +36,14 @@ import javax.persistence.Table;
 //TODO SR01 (DONE CC) - Make this into JPA entity and add all necessary annotations
 @Entity
 @Table(name = "security_role")
-@NamedQuery(name = SecurityRole.SECURITY_ROLE_BY_NAME_QUERY, query = "SELECT sr FROM SecurityRole sr WHERE sr.role_name = :param1")
+@NamedQuery(name = SecurityRole.SECURITY_ROLE_BY_NAME_QUERY, query = "SELECT sr FROM SecurityRole sr WHERE sr.roleName = :param1")
+@NamedQuery(name = SecurityRole.FIND_STUDENT_WITH_ROLE_BY_ID, query = "SELECT u FROM SecurityUser u LEFT JOIN FETCH u.student LEFT JOIN FETCH u.roles WHERE u.student.id = :param1")
 public class SecurityRole implements Serializable {
     /** Explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
 
     public static final String SECURITY_ROLE_BY_NAME_QUERY = "SecurityRole.roleByName";
+    public static final String FIND_STUDENT_WITH_ROLE_BY_ID = "SecurityUser.find";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -59,9 +59,10 @@ public class CustomIdentityStoreJPAHelper {
          */
         try {
             TypedQuery<SecurityUser> q = em.createNamedQuery(SECURITY_USER_BY_NAME_QUERY, SecurityUser.class);
-            q.setParameter(PARAM1, username);
+            q.setParameter("username", username);
             user = q.getSingleResult();
-        } catch (NoResultException e) {}
+        } catch (NoResultException e) {
+            LOG.debug("No SecurityUser found by that username: {}", username);}
         return user;
     }
 
