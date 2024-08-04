@@ -23,6 +23,7 @@ import java.security.Principal;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,6 +47,7 @@ import javax.persistence.Table;
 //TODO (DONE TN) - Make this into JPA entity and add all the necessary annotations
 @Entity
 @Table(name = "security_user")
+@AttributeOverride(name = "id", column = @Column(name = "user_id"))
 @NamedQuery(name = SecurityUser.SECURITY_USER_BY_NAME_QUERY, query = "SELECT su FROM SecurityUser su LEFT JOIN FETCH su.roles WHERE su.username = :username")
 @NamedQuery(name = SecurityUser.IS_DUPLICATE_SECURITY_USER, query = "SELECT COUNT(su) FROM SecurityUser su WHERE su.username = :username")
 @NamedQuery(name = SecurityUser.SECURITY_USER_BY_STUDENT_ID_QUERY, query = "SELECT su FROM SecurityUser su WHERE su.student.id = :studentId")
@@ -106,7 +108,6 @@ public class SecurityUser implements Serializable, Principal {
     }
 
     // TODO SU01 (DONE TN) - Setup custom JSON serializer -> see Lab 4. 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonSerialize(using = SecurityRoleSerializer.class)
     public Set<SecurityRole> getRoles() {
         return roles;
