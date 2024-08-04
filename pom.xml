@@ -7,7 +7,7 @@
     <artifactId>rest-acmecollege</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>REST-ACMECollege-Skeleton</name>
+    <name>Assignment-4</name>
 
     <!-- why is everything a property? Because hard-coded values become part 
         of Maven's immutable Model object and then their contents can't be changed. 

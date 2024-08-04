@@ -4,11 +4,10 @@
  * @author Teddy Yap
  * @author Mike Norman
  * 
- * Updated by:  Group NN
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
+ * Updated by:  Group 45
+ *  Timothy Norman
+ *  Camryn Collis
+ *  Fereshteh Rohani
  * 
  */
 package acmecollege.security;

@@ -5,7 +5,10 @@
  * (Original Author) Mike Norman
  *
  *
- * (Modified) @author Student Name
+ * Updated by:  Group 45
+ *  Timothy Norman
+ *  Camryn Collis
+ *  Fereshteh Rohani
  */
 package acmecollege;
 
@@ -126,5 +129,16 @@ public class TestACMECollegeSystem {
         List<Student> students = response.readEntity(new GenericType<List<Student>>(){});
         assertThat(students, is(not(empty())));
         assertThat(students, hasSize(1));
+    }
+    
+    @Test
+    public void test04_unauthorized_to_connect() throws JsonMappingException, JsonProcessingException {
+        Response response = webTarget
+                .register(userAuth)
+                .register(adminAuth)
+                .path(STUDENT_RESOURCE_NAME)
+                .request()
+                .get();
+        assertThat(response.getStatus(),is(401));
     }
 }
